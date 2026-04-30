@@ -1,23 +1,82 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
- <head>
-    <meta charset="UTF-8">
-    <title>Batalha Matemática</title>
-    <link rel="stylesheet" href="style.css">
+<head>
+<meta charset="UTF-8">
+<title>Batalha Matemática</title>
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <h1> Batalha Matemática </h1>
-    <p> Vida do jogador1: <span id= "vida1">100</span></p>
-    <p> Vida do Jogador2: <span id= "vida2" >100</span></p>
+<!-- 🎮 TELA INICIAL -->
+<div id="tela-inicial">
+    <h1>Batalha Matemática</h1>
 
-    <h3 id= "turno"> Vez do jogador1 </h3>
-    <h2 id = "pergunta"></h2>
+    <h2>📜 Instruções</h2>
+    <p>Jogador 1 e Jogador 2 se revezam respondendo perguntas matemáticas.</p>
+    <p>✔️ Acertou: causa dano no adversário</p>
+    <p>❌ Errou: perde a vez</p>
+    <p>📊 Rodada 1: fácil | Rodada 2: média | Rodada 3: difícil</p>
+    <p>🏆 Vence quem zerar a vida do adversário ou ganhar o desempate</p>
 
-    <input type="number" id ="resposta">
-    <button onclick="atacar()">Atacar</button>
+    <h2 id="press-start">PRESS START</h2>
 
-    <script src="script.js"></script>
+    <button onclick="iniciarJogo()">Começar</button>
+</div>
+
+<!-- 🎮 TELA DO JOGO -->
+<div id="jogo" style="display:none;">
+
+    <h1>Batalha Matemática</h1>
+
+    <div id="arena">
+
+        <!-- PERSONAGEM 1 -->
+        <div class="personagem" id="p1">
+            🧑‍💻 Jogador 1
+
+            <div class="vida-barra">
+                <div id="barra1"></div>
+            </div>
+
+            <p>Vida: <span id="vida1">150</span></p>
+        </div>
+
+        <!-- CENTRO -->
+        <div id="centro-batalha">
+
+            <h2 id="mensagem-rodada"></h2>
+
+            <p id="turno"></p>
+
+            <h2 id="pergunta"></h2>
+
+            <input type="number" id="resposta" placeholder="Digite sua resposta">
+
+            <br>
+
+            <button onclick="atacar()">Atacar</button>
+
+            <button onclick="reiniciarJogo()">Reiniciar</button>
+
+        </div>
+
+        <!-- PERSONAGEM 2 -->
+        <div class="personagem" id="p2">
+            🤖 Jogador 2
+
+            <div class="vida-barra">
+                <div id="barra2"></div>
+            </div>
+
+            <p>Vida: <span id="vida2">150</span></p>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
