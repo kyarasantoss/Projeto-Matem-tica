@@ -1,257 +1,322 @@
-let vida1 = 150 // Vida inciial do jogador 1
-let vida2 = 150 // Vida inicial do jogador 2
+// ==========================
+// 🔴 VARIÁVEIS GLOBAIS
+// ==========================
 
-let jogoFinalizado = false;
-let modoDesempate = false;
+// Vida inicial dos jogadores
+let vida1 = 150;
+let vida2 = 150;
 
-let jogadorAtual = 1; // O jogo começa do jogador 1
+// Tempo do cronômetro
+let tempo = 30;
 
-let respostaCorreta; //Variavel que vai acumular a respostas
+// Intervalo do timer
+let intervalo;
 
-let rodada = 1; // 1=fácil, 2=médio, 3=difícil
-let perguntaAtual = 0; // Variavel para guardar as perguntas
-let dano = 0; // Variavel dano
+// Guarda quem apertou primeiro (ganha o bônus)
+let primeiro = null;
 
-let perguntasPorRodada = 0; // Variavel para guardar as perguntas por rodada
+// Elemento de log na tela
+let log;
 
+// Controle do jogo
+let jogoAtivo = true;
 
-function mostrarMensagemRodada() { // mostrar mensagem de qual rodada é
-    let msg = "";
+// Perguntas dos jogadores
+let q1, q2;
 
-    if (rodada === 1) {
-        msg = "🟢 Rodada 1 - FÁCIL!";
-    } else if (rodada === 2) {
-        msg = "🟡 Rodada 2 - MÉDIO!";
-    } else {
-        msg = "🔴 Rodada 3 - DIFÍCIL!";
-    }
+// Controle de rodada
+let rodada = 1;
 
-    let elemento = document.getElementById("mensagem-rodada");
-    elemento.textContent = msg;
+// Contador de respostas por jogador
+let respostasJ1 = 0;
+let respostasJ2 = 0;
 
-    // some depois de 3 segundos
-    setTimeout(() => {
-        elemento.textContent = "";
-    }, 3000);
-}
-
-function modoDesempateAtacar(resposta) { // questão extra de para desempate 
-
-    if (resposta === respostaCorreta) {
-
-        if (jogadorAtual === 1) {
-            vida2 = 0;
-            alert("Jogador 1 venceu!");
-        } else {
-            vida1 = 0;
-            alert("Jogador 2 venceu!");
-        }
-
-        jogoFinalizado = true;
-        return;
-    } else {
-        alert("Errou! Passa a vez.");
-    }
-
-    jogadorAtual = (jogadorAtual === 1) ? 2 : 1;
-
-    atualizarTurno();
-    gerarPergunta();
-}
+// Controle se o jogo começou
+let jogoIniciado = false;
 
 
-function iniciarJogo() 
-{
-    document.getElementById("tela-inicial").style.display = "none";
-    document.getElementById("jogo").style.display = "block";
+// Só pega o log depois que a tela carregar
+window.onload = function() {
+  log = document.getElementById("log"); 
+};
 
-    rodada = 1; // garante que começa na rodada 1
-    perguntaAtual = 0;
 
-    mostrarMensagemRodada(); //  aqui mostra a rodada 1
-
-    gerarPergunta();
-    atualizarTurno();
-}
-
-function atualizarTurno() // Função para atualizar o turno
-{
-    document.getElementById("turno").textContent = "Vez do Jogador " + jogadorAtual;
-}
+// ==========================
+// 🧠 GERAR PERGUNTA
+// ==========================
 
 function gerarPergunta() {
-    // Gera um numero aleatorio de 0 a 9
-    let x = Math.floor(Math.random() * 10);
 
-    // controla nível
-    let tipo = Math.floor(Math.random() * 2);
+  let x = Math.floor(Math.random() * 10);
 
-    let pergunta = "";
+  let tipo = rodada - 1;
 
-    // FÁCIL (rodada 1)
-    if (rodada === 1) {
-        dano = 25;
-        perguntasPorRodada = 3;
+  let pergunta, resposta, dano;
 
-        if (tipo === 0) {
-            pergunta = "f(x) = x + 2, x = " + x;
-            respostaCorreta = x + 2;
-        } else {
-            pergunta = "f(x) = x - 1, x = " + x;
-            respostaCorreta = x - 1;
-        }
-    }
+  if (tipo === 0) {
+    pergunta = `f(x) = 2x + 3, x = ${x}`;
+    resposta = 2 * x + 3;
+    dano = 20;
 
-    // MÉDIO (rodada 2)
-    else if (rodada === 2) {
-        dano = 35;
-        perguntasPorRodada = 3;
+  } else if (tipo === 1) {
+    pergunta = `f(x) = x² - 1, x = ${x}`;
+    resposta = (x * x) - 1;
+    dano = 30;
 
-        if (tipo === 0) {
-            pergunta = "f(x) = 2x + 3, x = " + x;
-            respostaCorreta = 2 * x + 3;
-        } else {
-            pergunta = "f(x) = x² - 2, x = " + x;
-            respostaCorreta = (x * x) - 2;
-        }
-    }
+  } else {
+    pergunta = `f(x) = 3x² + 2x - 5, x = ${x}`;
+    resposta = (3 * x * x) + (2 * x) - 5;
+    dano = 50;
+  }
 
-    // DIFÍCIL (rodada 3)
-    else {
-        dano = 50;
-        perguntasPorRodada = 2;
-
-        if (tipo === 0) {
-            pergunta = "f(x) = x² + x + 1, x = " + x;
-            respostaCorreta = (x * x) + x + 1;
-        } else {
-            pergunta = "f(x) = 3x² - x, x = " + x;
-            respostaCorreta = (3 * x * x) - x;
-        }
-    }
-
-    document.getElementById("pergunta").textContent = pergunta;
-
-}
-
-function mostrarMensagemDesempate() {
-    let msg = document.getElementById("mensagem-rodada");
-
-    msg.textContent = "⚔️ DESAFIO FINAL! Quem acertar vence!";
-    
-    msg.style.color = "red";
-    msg.style.fontWeight = "bold";
-
-    setTimeout(() => {
-        msg.textContent = "";
-    }, 2000);
+  return { pergunta, resposta, dano };
 }
 
 
-function atacar() {
+// ==========================
+// 🔄 NOVA RODADA
+// ==========================
 
-     // bloqueia se o jogo já acabou
-    if (jogoFinalizado) return;
+function novaRodada() {
 
-    let resposta = Number(document.getElementById("resposta").value);
+  q1 = gerarPergunta();
+  q2 = gerarPergunta();
 
-      // MODO DESEMPATE
-    if (modoDesempate) {
+  // Reseta prioridade
+  primeiro = null;
 
-        if (resposta === respostaCorreta) {
+  // Atualiza perguntas na tela
+  document.getElementById("pergunta1").innerText = q1.pergunta;
+  document.getElementById("pergunta2").innerText = q2.pergunta;
 
-            if (jogadorAtual === 1) {
-                vida2 = 0;
-                alert(" Jogador 1 venceu no desempate!");
-            } else {
-                vida1 = 0;
-                alert(" Jogador 2 venceu no desempate!");
-            }
+  // Limpa respostas
+  document.getElementById("resposta1").value = "";
+  document.getElementById("resposta2").value = "";
 
-            jogoFinalizado = true;
+  if (jogoIniciado) {
+    log.textContent = "📢 Nova pergunta!";
+  }
 
-            document.getElementById("vida1").textContent = vida1;
-            document.getElementById("vida2").textContent = vida2;
+  document.getElementById("rodada").innerText = "Rodada " + rodada;
+}
 
-            return;
-        } else {
-            alert("Errou! Passa a vez.");
-        }
 
-        // troca jogador no desempate
-        jogadorAtual = (jogadorAtual === 1) ? 2 : 1;
+// ==========================
+// ⚡ PRESSIONAR (GANHAR BÔNUS)
+// ==========================
 
-        atualizarTurno();
-        gerarPergunta();
-        document.getElementById("resposta").value = "";
-        return;
+function pressionar(jogador) {
+
+  // Se alguém já apertou, não deixa outro pegar
+  if (primeiro !== null) return;
+
+  // Define quem ganhou o bônus
+  primeiro = jogador;
+
+  log.textContent = `⚡ Jogador ${jogador} foi mais rápido!`;
+
+  iniciarTimer();
+}
+
+
+// ==========================
+// ⌨️ TECLAS Q e P
+// ==========================
+
+document.addEventListener("keydown", function(event) {
+
+  let tecla = event.key.toLowerCase();
+
+  if (tecla === "q") pressionar(1);
+  if (tecla === "p") pressionar(2);
+
+});
+
+
+// ==========================
+// ⚔️ RESPONDER
+// ==========================
+
+function responder(jogador) {
+
+  if (!jogoAtivo) return;
+
+  // Se ninguém apertou ainda
+    if (primeiro === null) {
+      log.textContent = "⚡ Aperte Q ou P primeiro!";
+      return;}
+
+// Se não for a vez do jogador
+    if (primeiro !== jogador) {
+      log.textContent = `⏳ Vez do Jogador ${primeiro}`;
+      return;}
+
+  // Define bônus por rodada
+    let bonus = 0;
+    if (rodada === 1) bonus = 10;
+    else if (rodada === 2) bonus = 20;
+    else bonus = 30;
+
+  // ======================
+  // JOGADOR 1
+  // ======================
+  if (jogador === 1) {
+
+    let r = Number(document.getElementById("resposta1").value);
+
+    if (isNaN(r)) {
+      log.textContent = "Digite um número!";
+      return;
     }
 
-    if (resposta === respostaCorreta) {
-        alert("Acertou! Dano: " + dano);
+    if (r === q1.resposta) {
 
-        if (jogadorAtual === 1) {
-            vida2 -= dano;
-        } else {
-            vida1 -= dano;
-        }
+      let danoTotal = q1.dano + bonus;
+      vida2 -= danoTotal;
 
-        document.getElementById("vida1").textContent = vida1;
-        document.getElementById("vida2").textContent = vida2;
+      log.textContent = `💥 J1 causou ${danoTotal} de dano!`;
+
     } else {
-        alert("Errou!");
+
+      log.textContent = "❌ J1 errou!";
+
+      let danoTotal = q1.dano + bonus;
+      vida1 -= danoTotal;
     }
 
-    // aumenta contador de perguntas respondidas
-    perguntaAtual++;
+    respostasJ1++;
 
-    // troca pergunta dentro da rodada
-    if (perguntaAtual >= perguntasPorRodada) {
-        rodada++; // próxima dificuldade
-        perguntaAtual = 0;
-        mostrarMensagemRodada();
+  } else {
+
+    // ======================
+    // JOGADOR 2
+    // ======================
+
+    let r = Number(document.getElementById("resposta2").value);
+
+    if (isNaN(r)) {
+      log.textContent = "Digite um número!";
+      return;
     }
 
-    // reinicia se acabar tudo
-    if (rodada > 3) 
-    {
-        if (vida1 > 0 && vida2 > 0) {
-        modoDesempate = true;
-        alert("DESEMPATE!");
-        
-        mostrarMensagemDesempate()
-    }
+    if (r === q2.resposta) {
 
-        rodada = 1;
-    }
+      let danoTotal = q2.dano + bonus;
+      vida1 -= danoTotal;
 
-    // alterna jogador
-    if (jogadorAtual === 1) {
-        jogadorAtual = 2;
+      log.textContent = `💥 J2 causou ${danoTotal} de dano!`;
+
     } else {
-        jogadorAtual = 1;
+
+      log.textContent = "❌ J2 errou!";
+
+      let danoTotal = q2.dano + bonus;
+      vida2 -= danoTotal;
     }
 
-    // atualiza texto na tela
-    atualizarTurno();
+    respostasJ2++;
+  }
 
-    gerarPergunta();
-    document.getElementById("resposta").value = "";
+  // Atualiza vida
+  atualizarVida();
+
+  // Reseta prioridade
+  primeiro = null;
+
+  // ======================
+  // 🔄 TROCA DE RODADA
+  // ======================
+
+  // Se ambos responderam 3 vezes
+  if (respostasJ1 >= 3 && respostasJ2 >= 3) {
+
+    rodada++;
+
+    respostasJ1 = 0;
+    respostasJ2 = 0;
+
+    if (rodada > 3) {
+      log.textContent = "🏆 Fim do jogo!";
+      return;
+    }
+
+    log.textContent = `⚔ Rodada ${rodada}!`;
+  }
+
+  novaRodada();
 }
 
-function reiniciarJogo() {
-    vida1 = 150;
-    vida2 = 150;
-    rodada = 1;
-    perguntaAtual = 0;
-    jogadorAtual = 1;
-    jogoFinalizado = false;
-    modoDesempate = false;
 
-    atualizarVida();
-    atualizarTurno();
-    gerarPergunta();
+// ==========================
+// ❤️ ATUALIZAR VIDA
+// ==========================
+
+function atualizarVida() {
+
+  // Impede valores negativos
+  vida1 = Math.max(0, vida1);
+  vida2 = Math.max(0, vida2);
+
+  // Atualiza número
+  document.getElementById("vida1").innerText = vida1;
+  document.getElementById("vida2").innerText = vida2;
+
+  // 🔥 ATUALIZA A BARRA
+  document.getElementById("barra1").style.width = (vida1 / 150 * 100) + "%";
+  document.getElementById("barra2").style.width = (vida2 / 150 * 100) + "%";
 }
 
-gerarPergunta();
-atualizarTurno()
+
+// ==========================
+// ⏱️ TIMER
+// ==========================
+
+function iniciarTimer() {
+
+  clearInterval(intervalo);
+
+  tempo = 30;
+
+  intervalo = setInterval(() => {
+
+    tempo--;
+
+    document.getElementById("timer").innerText = tempo;
+
+    if (tempo <= 0) {
+
+      clearInterval(intervalo);
+
+      vida1 -= 15;
+      vida2 -= 15;
+
+      atualizarVida();
+
+      novaRodada();
+    }
+
+  }, 1000);
+}
+
+
+// ==========================
+// 🎮 INICIAR JOGO
+// ==========================
+
+function iniciarJogo() {
+
+  document.getElementById("tela-inicial").style.display = "none";
+  document.getElementById("jogo").style.display = "block";
+
+  vida1 = 150;
+  vida2 = 150;
+
+  respostasJ1 = 0;
+  respostasJ2 = 0;
+
+  atualizarVida();
+
+  novaRodada();
+
+  jogoIniciado = true;
+}

@@ -118,3 +118,316 @@ body {
     transform: scale(1.05);
     background: #0ea5e9;
 }
+
+/* Editar imagem */
+
+.sprite {
+  width: 120px;          /* tamanho menor */
+  display: block;
+  margin: 10px auto;     /* centraliza */
+  image-rendering: pixelated;
+
+   /* efeito leve */
+  filter: drop-shadow(0 0 5px black);
+}
+
+/* Fica no estilo RPG */
+.personagem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-player {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sprite {
+  width: 50px;
+  image-rendering: pixelated;
+}
+
+
+/* DIVIDIR A TELA */
+#arena {
+  display: flex;        /* coloca lado a lado */
+  height: 100vh;  
+  height: 100vh;      /* ocupa tela toda */
+}
+
+.personagem {
+  width: 50%;           /* cada um ocupa metade */
+  border: 2px solid white;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* FICAR MAIS BONIINHO */
+
+#p1 {
+  background-color: #233867; /* azul escuro */
+}
+
+#p2 {
+  background-color: #e600ff; /* vermelho escuro */
+}
+
+/* container */
+.vida-container {
+  width: 100%;
+  margin: 10px 0;
+}
+
+/* fundo da barra */
+.vida-barra {
+  width: 100%;
+  height: 20px;
+  background: #333;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* vida atual */
+.vida {
+  height: 100%;
+  width: 100%; /* começa cheia */
+  background: linear-gradient(to right, #22c55e, #16a34a);
+  transition: width 0.3s;
+}
+
+/* BOTÃO ATIVO */
+.bonus-ativo {
+  background: yellow !important;
+  color: black;
+  box-shadow: 0 0 15px yellow;
+}
+
+/* EFEITO NO PLAYER */
+.flash {
+  animation: flash 0.4s;
+}
+
+@keyframes flash {
+  0% { background-color: rgba(255,255,0,0.2); }
+  50% { background-color: rgba(255,255,0,0.6); }
+  100% { background-color: transparent; }
+}body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: white;
+    text-align: center;
+}
+
+/* 🔥 ANIMAÇÃO DE ENTRADA */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* BASE */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: white;
+    text-align: center;
+}
+
+/* 🎬 ANIMAÇÕES */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseGlow {
+    0% {
+        opacity: 0.5;
+        text-shadow: 0 0 5px #38bdf8;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        text-shadow:
+            0 0 10px #38bdf8,
+            0 0 20px #0ea5e9,
+            0 0 30px #38bdf8;
+        transform: scale(1.05);
+    }
+    100% {
+        opacity: 0.5;
+        text-shadow: 0 0 5px #38bdf8;
+        transform: scale(1);
+    }
+}
+
+/* 🟦 TELA INICIAL */
+#tela-inicial {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.6s ease;
+}
+
+/* 🎮 PRESS START */
+#press-start {
+    font-size: 28px;
+    margin-top: 20px;
+    color: #38bdf8;
+    letter-spacing: 4px;
+    animation: pulseGlow 1.2s infinite;
+}
+
+/* TELA INICIAL */
+#tela-inicial {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* TÍTULO */
+#tela-inicial h1 {
+    font-size: 40px;
+    margin-bottom: 20px;
+    color: #38bdf8;
+    text-shadow: 0 0 10px #38bdf8;
+}
+
+/* CAIXA DE INSTRUÇÕES */
+#tela-inicial p {
+    max-width: 500px;
+    font-size: 18px;
+    margin: 8px 0;
+    opacity: 0.9;
+}
+
+/* BOTÃO COMEÇAR */
+#tela-inicial button {
+    margin-top: 25px;
+    padding: 12px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+
+    background: #38bdf8;
+    color: black;
+    font-weight: bold;
+
+    transition: 0.3s;
+}
+
+/* HOVER DO BOTÃO */
+#tela-inicial button:hover {
+    transform: scale(1.05);
+    background: #0ea5e9;
+}
+
+/* Editar imagem */
+
+.sprite {
+  width: 120px;          /* tamanho menor */
+  display: block;
+  margin: 10px auto;     /* centraliza */
+  image-rendering: pixelated;
+
+   /* efeito leve */
+  filter: drop-shadow(0 0 5px black);
+}
+
+/* Fica no estilo RPG */
+.personagem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-player {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sprite {
+  width: 50px;
+  image-rendering: pixelated;
+}
+
+
+/* DIVIDIR A TELA */
+#arena {
+  display: flex;        /* coloca lado a lado */
+  height: 100vh;  
+  height: 100vh;      /* ocupa tela toda */
+}
+
+.personagem {
+  width: 50%;           /* cada um ocupa metade */
+  border: 2px solid white;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* FICAR MAIS BONIINHO */
+
+#p1 {
+  background-color: #233867; /* azul escuro */
+}
+
+#p2 {
+  background-color: #e600ff; /* vermelho escuro */
+}
+
+/* container */
+.vida-container {
+  width: 100%;
+  margin: 10px 0;
+}
+
+/* fundo da barra */
+.vida-barra {
+  width: 100%;
+  height: 20px;
+  background: #333;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* vida atual */
+.vida {
+  height: 100%;
+  width: 100%; /* começa cheia */
+  background: linear-gradient(to right, #22c55e, #16a34a);
+  transition: width 0.3s;
+}
+
+/* BOTÃO ATIVO */
+.bonus-ativo {
+  background: yellow !important;
+  color: black;
+  box-shadow: 0 0 15px yellow;
+}
+
+/* EFEITO NO PLAYER */
+.flash {
+  animation: flash 0.4s;
+}
+
+@keyframes flash {
+  0% { background-color: rgba(255,255,0,0.2); }
+  50% { background-color: rgba(255,255,0,0.6); }
+  100% { background-color: transparent; }
+}

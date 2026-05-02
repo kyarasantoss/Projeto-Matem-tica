@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Batalha Matemática</title>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -10,12 +11,14 @@
 
 <!-- 🎮 TELA INICIAL -->
 <div id="tela-inicial">
-    <h1>Batalha Matemática</h1>
+    <h1 >⚔ Duelo Arcano ⚔ </h1>
 
     <h2>📜 Instruções</h2>
     <p>Jogador 1 e Jogador 2 se revezam respondendo perguntas matemáticas.</p>
     <p>✔️ Acertou: causa dano no adversário</p>
-    <p>❌ Errou: perde a vez</p>
+    <p>⚡ Aperte "Rápido" antes do outro jogador para ganhar bônus</p>
+<p>⏱️ Se o tempo acabar, os dois levam dano</p>
+    <p>❌ Errou: perde a vez e leva dano!</p>
     <p>📊 Rodada 1: fácil | Rodada 2: média | Rodada 3: difícil</p>
     <p>🏆 Vence quem zerar a vida do adversário ou ganhar o desempate</p>
 
@@ -27,52 +30,70 @@
 <!-- 🎮 TELA DO JOGO -->
 <div id="jogo" style="display:none;">
 
-    <h1>Batalha Matemática</h1>
+    <h1> ⚔ Duelo Arcano ⚔ </h1>
+
+   <h2 id="timer">Tempo: 30</h2>
+    <p id="status"></p>
+
+    <h2 id="rodada"></h2>
+
+    <p id="log"></p>
 
     <div id="arena">
 
         <!-- PERSONAGEM 1 -->
-        <div class="personagem" id="p1">
-            🧑‍💻 Jogador 1
+    <div class="personagem" id="p1">
 
-            <div class="vida-barra">
-                <div id="barra1"></div>
-            </div>
+        <div class="header-player">
+            <div class="vida-container">
+    <div class="vida-barra">
+        <div class="vida" id="barra1"></div>
+    </div>
+</div> 
 
-            <p>Vida: <span id="vida1">150</span></p>
+            <img src="assets/p1.png" class="sprite">
+           
+            <h2>Jogador 1</h2>
         </div>
 
-        <!-- CENTRO -->
-        <div id="centro-batalha">
+        <p>Vida: <span id="vida1">150</span></p>
 
-            <h2 id="mensagem-rodada"></h2>
+        <div class="pergunta" id="pergunta1"></div>
 
-            <p id="turno"></p>
+        <input id="resposta1" type="number" placeholder="Resposta">
 
-            <h2 id="pergunta"></h2>
-
-            <input type="number" id="resposta" placeholder="Digite sua resposta">
-
-            <br>
-
-            <button onclick="atacar()">Atacar</button>
-
-            <button onclick="reiniciarJogo()">Reiniciar</button>
-
-        </div>
-
-        <!-- PERSONAGEM 2 -->
-        <div class="personagem" id="p2">
-            🤖 Jogador 2
-
-            <div class="vida-barra">
-                <div id="barra2"></div>
-            </div>
-
-            <p>Vida: <span id="vida2">150</span></p>
-        </div>
+        <button onclick="responder(1)">Atacar</button>
+        <button id="btn1" onclick="pressionar(1)">⚡</button>
 
     </div>
+
+
+        <!-- PERSONAGEM 2 -->
+       <div class="personagem" id="p2">
+
+        <div class="header-player">
+            <div class="vida-container">
+    <div class="vida-barra">
+        <div class="vida" id="barra2"></div>
+    </div>
+</div>
+
+            <img src="assets/p2.png" class="sprite">
+            <h2>Jogador 2</h2>
+        </div>
+
+        <p>Vida: <span id="vida2">150</span></p>
+
+        <div class="pergunta" id="pergunta2"></div>
+
+        <input id="resposta2" type="number" placeholder="Resposta">
+
+        <button onclick="responder(2)">Atacar</button>
+        <button id="btn2" onclick="pressionar(2)">⚡</button>
+
+    </div>
+
+</div>
 
 </div>
 
